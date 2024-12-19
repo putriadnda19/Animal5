@@ -2,10 +2,6 @@ import streamlit as st
 import torch
 from torchvision import transforms
 from PIL import Image
-import numpy as np
-
-# Set the page configuration
-st.set_page_config(page_title="Animal Image Prediction", page_icon="🐾")
 
 # Load the pre-trained model
 @st.cache(allow_output_mutation=True)
@@ -18,7 +14,7 @@ model = load_model()
 
 # Define the image transformations
 transform = transforms.Compose([
-    transforms.Resize((224, 224)),  # Adjust size according to your model's input size
+    transforms.Resize((224, 224)),
     transforms.ToTensor(),
 ])
 
@@ -31,7 +27,7 @@ def import_and_predict(image_data, model):
 
 # Sidebar for the app
 st.sidebar.title("Upload an Image")
-file = st.sidebar.file_uploader("Choose an image...", type=["jpg", "png", "jpeg"])
+file = st.sidebar.file_uploader("Choose an image...", type=["jpg", "png", "jpeg])
 
 if file is None:
     st.text("Please upload an image file")
@@ -47,8 +43,3 @@ else:
     predicted_class = class_names[torch.argmax(predictions).item()]
     
     st.write(f"Predicted Class: {predicted_class}")
-    st.sidebar.success(f"Prediction: {predicted_class}")
-
-    # Display prediction confidence
-    confidence = torch.max(predictions).item() * 100
-    st.sidebar.info(f"Confidence: {confidence:.2f}%")
